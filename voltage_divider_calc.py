@@ -16,11 +16,17 @@ def find_closest_index(lst, K):
     idx = (np.abs(lst - K)).argmin()
     return idx
 
+def exp(base, exp):
+    return base * 10 ** exp
+
+#1 10 100 1k 10k 100k 1M 10M
 def calc_combinations(vout):
-    for r1 in E24_VALUES:
-        for r2 in E24_VALUES:
-            current_pair = "R1: " + str(r1) + "  r2:" + str(r2)
-            vout[current_pair] = (int(args.source_voltage) * r2) / (r1 + r2)
+    for exponent_r1 in range(-1, 7):
+        for r1 in E24_VALUES:
+            for exponent_r2 in range(-1, 7):
+                for r2 in E24_VALUES:
+                    current_pair = "R1: " + str(exp(r1, exponent_r1)) + "  r2:" + str(exp(r2, exponent_r2))
+                    vout[current_pair] = (int(args.source_voltage) * exp(r2, exponent_r2)) / (exp(r1, exponent_r1) + exp(r2, exponent_r2))
         
     return vout
     
